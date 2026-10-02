@@ -1,0 +1,56 @@
+# C-CASE-GCT2019-Reproducibility
+# Experimental configuration
+
+dataset:
+  name: "Google Cluster Data 2019"
+  source: "Google Cluster Data 2019"
+  data_type: "instance_usage"
+  resources:
+    - "CPU"
+    - "memory"
+
+forecasting:
+  sampling_interval_minutes: 5
+  lookback_observations: 10
+  lookback_duration_minutes: 50
+  forecast_horizon_observations: 1
+  forecast_horizon_minutes: 5
+
+data_split:
+  method: "chronological"
+  development_fraction: 0.80
+  test_fraction: 0.20
+
+preprocessing:
+  normalization:
+    method: "StandardScaler"
+    fit_on: "development_data_only"
+
+clustering:
+  method: "KMeans"
+  n_clusters: 3
+  purpose: "workload_context"
+
+base_models:
+  - "LinearRegression"
+  - "RandomForestRegressor"
+  - "XGBRegressor"
+
+meta_model:
+  type: "XGBRegressor"
+  input:
+    - "temporal_out_of_fold_predictions"
+    - "cluster_context"
+
+random_seeds:
+  - 42
+  - 123
+  - 2024
+  - 3407
+  - 7777
+
+evaluation_metrics:
+  - "MSE"
+  - "RMSE"
+  - "MAE"
+  - "R2"
