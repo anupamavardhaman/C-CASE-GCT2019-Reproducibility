@@ -17,6 +17,10 @@ The experiment uses the following Google Cluster Data 2019 instance usage file:
 ```text
 instance_usage-000000000000.json.gz
 
+The following command was used to download the required file:
+
+```bash
 wget -c \
 https://storage.googleapis.com/clusterdata_2019_a/instance_usage-000000000000.json.gz \
 -O "/content/drive/MyDrive/C_CASE/Google_InstanceUsage/instance_usage-000000000000.json.gz"
+```
