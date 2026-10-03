@@ -1,0 +1,16 @@
+# Raw Google Cluster Data files
+data/raw/
+
+# Google Cluster Data compressed files
+*.json.gz
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local virtual environments
+venv/
+.env/
