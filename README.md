@@ -27,6 +27,62 @@ See:
 ```text
 data/README.md
 
+## Experimental Protocol
+
+Dataset:
+Google Cluster Trace 2019 instance usage data.
+
+Temporal resolution:
+5 minutes.
+
+Lookback:
+10 observations (50 minutes).
+
+Forecast horizon:
+1 observation (5 minutes ahead).
+
+Train-test split:
+Chronological 80:20 split.
+
+Training observations:
+1,135,395.
+
+Test observations:
+283,864.
+
+Input features:
+31 engineered features.
+
+Target variables:
+Future CPU utilization and future memory utilization.
+
+Scaling:
+StandardScaler fitted only on the development/training data.
+
+Clustering:
+K-Means with K=3 for the final C-CASE experiment.
+
+K-Means random state:
+42.
+
+Base learners:
+Linear Regression,
+Random Forest,
+XGBoost.
+
+Stacking:
+3-fold temporal out-of-fold predictions.
+
+Meta learner:
+XGBoost.
+
+C-CASE meta features:
+3 base-model predictions + 3 cluster-context variables.
+
+Final evaluation:
+All models are evaluated on the same untouched
+chronological test set containing 283,864 observations.
+
 
 
 ## Reproducing the C-CASE Results
