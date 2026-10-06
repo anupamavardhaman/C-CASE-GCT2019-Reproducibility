@@ -22,8 +22,9 @@ It reproduces the data preparation required before the C-CASE model:
 
 Important:
 - The raw Google trace is NOT redistributed by this repository.
-- The default final K is 3, matching the revised C-CASE paper.
-- If reproducing an older K=6 experiment, pass --k 6 and use a different output filename.
+- The Step-15 preprocessing checkpoint uses K=6, matching the verified
+  preprocessing notebook. The final Table-4 training script independently
+  refits K=3 for the C-CASE comparison experiment.
 """
 
 import argparse
@@ -46,8 +47,8 @@ TRAIN_RATIO = 0.80
 MIN_SEQUENCE_LENGTH = 12
 LAG_COUNT = 10
 CLUSTER_SAMPLE_SIZE = 100_000
-K_VALUES = [2, 3, 4, 5, 6]
-DEFAULT_K = 3
+K_VALUES = [2, 3, 4, 5, 6, 7, 8]
+DEFAULT_K = 6
 
 FEATURE_COLS = [
     "cpu_usage",
@@ -322,17 +323,37 @@ def engineer_features(machine_ts_continuous: pd.DataFrame) -> pd.DataFrame:
 def chronological_split(
     model_data: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame, int]:
-    """Create an 80:20 chronological split using unique time buckets."""
-    unique_times = np.sort(
-        model_data["time_bucket"].unique()
+    """
+    Create the verified chronological 80:20 split.
+
+    The verified notebook determines the training row boundary first:
+        n_train_target = int(n_total * 0.80)
+
+    It then uses the time bucket at that row as the cutoff and assigns
+    complete time buckets to either the development set or the final test
+    set. This reproduces the verified split of:
+
+        total = 1,419,259
+        train = 1,135,395
+        test  =   283,864
+
+    for the official instance-usage shard used in the study.
+    """
+    model_data = (
+        model_data
+        .sort_values(["time_bucket", "machine_id", "sequence_id"])
+        .reset_index(drop=True)
     )
 
-    cutoff_index = int(len(unique_times) * TRAIN_RATIO)
+    n_total = len(model_data)
+    n_train_target = int(n_total * TRAIN_RATIO)
 
-    if cutoff_index <= 0 or cutoff_index >= len(unique_times):
+    if n_train_target <= 0 or n_train_target >= n_total:
         raise ValueError("Invalid chronological split.")
 
-    cutoff_time = unique_times[cutoff_index]
+    cutoff_time = int(
+        model_data.loc[n_train_target, "time_bucket"]
+    )
 
     train_data = model_data[
         model_data["time_bucket"] < cutoff_time
@@ -342,10 +363,17 @@ def chronological_split(
         model_data["time_bucket"] >= cutoff_time
     ].copy()
 
+    if train_data.empty or test_data.empty:
+        raise RuntimeError("Chronological split produced an empty partition.")
+
     if train_data["time_bucket"].max() >= test_data["time_bucket"].min():
         raise RuntimeError("Temporal leakage detected at train/test boundary.")
 
-    return train_data, test_data, int(cutoff_time)
+    return (
+        train_data.reset_index(drop=True),
+        test_data.reset_index(drop=True),
+        cutoff_time,
+    )
 
 
 def fit_scaler(
@@ -565,6 +593,21 @@ def run(args):
     print("Training end:", train_data["time_bucket"].max())
     print("Testing start:", test_data["time_bucket"].min())
 
+    # Verified dimensions for the exact GCT 2019 shard used in the study.
+    # The check is informative rather than a hard failure so the script can
+    # still be reused with another shard.
+    if len(model_data) == 1_419_259:
+        if len(train_data) != 1_135_395 or len(test_data) != 283_864:
+            raise RuntimeError(
+                "Verified GCT 2019 split mismatch: expected "
+                "1,135,395 training rows and 283,864 test rows, but found "
+                f"{len(train_data):,} and {len(test_data):,}."
+            )
+        print(
+            "Verified split check: PASS "
+            "(1,135,395 train / 283,864 test)"
+        )
+
     # ------------------------------------------------------------------
     # 5. Training-only scaling
     # ------------------------------------------------------------------
@@ -702,7 +745,7 @@ def parse_args():
 
     parser.add_argument(
         "--output",
-        default="checkpoints/ccase_step15_k3.pkl",
+        default="checkpoints/ccase_step15.pkl",
         help="Output checkpoint path.",
     )
 
@@ -710,7 +753,7 @@ def parse_args():
         "--k",
         type=int,
         default=DEFAULT_K,
-        help="Final number of clusters. Default: 3.",
+        help="Final number of preprocessing clusters. Default: 6.",
     )
 
     return parser.parse_args()
