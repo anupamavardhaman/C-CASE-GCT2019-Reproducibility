@@ -26,3 +26,71 @@ See:
 
 ```text
 data/README.md
+
+
+
+## Reproducing the C-CASE Results
+
+### 1. Clone the repository
+
+git clone https://github.com/anupamavardhaman/C-CASE-GCT2019-Reproducibility.git
+
+cd C-CASE-GCT2019-Reproducibility
+
+### 2. Create a Python environment
+
+python -m venv .venv
+
+Windows:
+.venv\Scripts\activate
+
+Linux/macOS:
+source .venv/bin/activate
+
+### 3. Install dependencies
+
+pip install -r requirements.txt
+
+### 4. Download the Google Cluster Trace 2019 data
+
+python src/download_data.py
+
+The raw dataset is downloaded to:
+
+data/raw/instance_usage-000000000000.json.gz
+
+The raw dataset is not committed to this repository.
+
+### 5. Run preprocessing
+
+python src/preprocess_data.py \
+    --input data/raw/instance_usage-000000000000.json.gz \
+    --output checkpoints/ccase_step15.pkl
+
+Expected output:
+
+Total observations: 1,419,259
+Training observations: 1,135,395
+Testing observations: 283,864
+
+The preprocessing checkpoint uses K=6 for the Step-15
+preprocessing workflow.
+
+### 6. Train and evaluate C-CASE
+
+python src/train_ccase.py \
+    --checkpoint checkpoints/ccase_step15.pkl \
+    --output-dir results
+
+The final training script independently fits K=3 for the
+C-CASE Table 4 experiment.
+
+### 7. Output files
+
+The following files are generated:
+
+results/Table4_Final_Test_Predictions.csv
+
+results/Table4_Final_Common_Test_Comparison.csv
+
+results/Table4_Reviewer_Consistency_Check.csv
