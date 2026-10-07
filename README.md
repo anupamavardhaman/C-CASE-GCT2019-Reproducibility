@@ -28,7 +28,7 @@ See:
 data/README.md
 ```
 
-## Experimental Protocol
+## 3. Experimental Protocol
 
 Dataset:
 Google Cluster Trace 2019 instance usage data.
@@ -86,7 +86,7 @@ chronological test set containing 283,864 observations.
 
 
 
-## Reproducing the C-CASE Results
+## 4 Reproducing the C-CASE Results
 
 ### 1. Clone the repository
 
