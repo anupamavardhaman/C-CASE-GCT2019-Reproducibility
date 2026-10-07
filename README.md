@@ -113,7 +113,58 @@ the untouched chronological test set containing 283,864 observations.
 The final test observations are not used for feature scaling, clustering,
 base-model training, OOF prediction generation, or meta-learner training.
 
-## 5. Reproducing the C-CASE Results
+## 5. Model Configuration
+
+The following hyperparameters are used in the final C-CASE experiment.
+
+### Linear Regression
+
+The Linear Regression base learner uses the default scikit-learn
+configuration.
+
+### Random Forest
+
+- `n_estimators = 150`
+- `max_depth = 12`
+- `min_samples_leaf = 2`
+- `max_features = sqrt`
+- `random_state = 42`
+
+### Base XGBoost
+
+- `n_estimators = 150`
+- `max_depth = 6`
+- `learning_rate = 0.05`
+- `subsample = 0.8`
+- `colsample_bytree = 0.8`
+- `min_child_weight = 5`
+- `reg_alpha = 0`
+- `reg_lambda = 1`
+- `tree_method = hist`
+- `random_state = 42`
+
+### XGBoost Meta-Learner
+
+- `n_estimators = 150`
+- `max_depth = 4`
+- `learning_rate = 0.05`
+- `subsample = 0.8`
+- `colsample_bytree = 0.8`
+- `min_child_weight = 5`
+- `reg_alpha = 0`
+- `reg_lambda = 1`
+- `tree_method = hist`
+- `random_state = 42`
+
+### Temporal Stacking
+
+- Number of temporal folds: `3`
+- Stacking strategy: temporal out-of-fold prediction
+- Base learners: Linear Regression, Random Forest, XGBoost
+- C-CASE context variables: 3 one-hot cluster indicators
+- Total C-CASE meta features: 6
+
+## 6. Reproducing the C-CASE Results
 
 ### 1. Clone the repository
 
