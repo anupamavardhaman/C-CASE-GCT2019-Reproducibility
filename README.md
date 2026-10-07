@@ -85,9 +85,35 @@ Final evaluation:
 All models are evaluated on the same untouched
 chronological test set containing 283,864 observations.
 
+## 4. Leakage Prevention
 
+The experimental pipeline uses a strict chronological evaluation protocol
+to prevent information from the future test period from entering model
+development.
 
-## 4 Reproducing the C-CASE Results
+The dataset is divided chronologically into an 80% development/training
+portion and a 20% untouched final test portion. The StandardScaler is fitted
+exclusively on the development data and the learned transformation is then
+applied to the test data.
+
+For the final C-CASE experiment, K-Means clustering is fitted using the
+development data only. The learned cluster centroids are subsequently used
+to assign cluster-context information to the test observations.
+
+Stacking is performed using 3-fold temporal out-of-fold (OOF) predictions.
+For each temporal fold, the base learners are trained using earlier
+observations and predictions are generated for subsequent observations that
+were not used during training. These OOF predictions are used to train the
+meta-learner.
+
+After meta-learner training, the global base learners are refitted using the
+complete development set. The final predictions are then generated once on
+the untouched chronological test set containing 283,864 observations.
+
+The final test observations are not used for feature scaling, clustering,
+base-model training, OOF prediction generation, or meta-learner training.
+
+## 5. Reproducing the C-CASE Results
 
 ### 1. Clone the repository
 
