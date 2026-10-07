@@ -1,16 +1,56 @@
-# Raw Google Cluster Data files
+# ==============================
+# Raw Dataset Files
+# ==============================
+
+# Google Cluster Data
 data/raw/
 
-# Google Cluster Data compressed files
+# Compressed datasets
 *.json.gz
+*.csv.gz
+*.zip
 
-# Python cache files
+# ==============================
+# Python
+# ==============================
+
 __pycache__/
 *.py[cod]
+*.pyo
 
-# Jupyter Notebook checkpoints
+# ==============================
+# Jupyter Notebook
+# ==============================
+
 .ipynb_checkpoints/
 
-# Local virtual environments
+# ==============================
+# Virtual Environment
+# ==============================
+
 venv/
-.env/
+.venv/
+env/
+
+# Environment variables / secrets
+.env
+
+# ==============================
+# IDE / Editor Files
+# ==============================
+
+.vscode/
+.idea/
+
+# ==============================
+# OS Files
+# ==============================
+
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Logs
+# ==============================
+
+*.log
