@@ -190,8 +190,6 @@ The meta-learning input therefore contains six features:
 An XGBoost meta-regressor combines these base-model predictions and
 cluster-context variables to generate the final C-CASE forecast.
 
-No cluster-specific Linear Regression, Random Forest, or XGBoost models are
-trained in the final C-CASE Table 4 experiment.
 
 ## 7. Reproducing the C-CASE Results
 
