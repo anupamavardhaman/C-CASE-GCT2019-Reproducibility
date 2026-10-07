@@ -235,8 +235,7 @@ Total observations: 1,419,259
 Training observations: 1,135,395
 Testing observations: 283,864
 
-The preprocessing checkpoint uses K=6 for the Step-15
-preprocessing workflow.
+The Step-15 preprocessing checkpoint uses K=6 for the preprocessing workflow, while train_ccase.py independently fits K=3 for the final C-CASE Table 4 experiment.
 
 ### 6. Train and evaluate C-CASE
 
