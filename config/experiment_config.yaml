@@ -20,6 +20,7 @@ data_split:
   method: "chronological"
   development_fraction: 0.80
   test_fraction: 0.20
+  shuffle: false
 
 preprocessing:
   normalization:
