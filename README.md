@@ -164,7 +164,36 @@ configuration.
 - C-CASE context variables: 3 one-hot cluster indicators
 - Total C-CASE meta features: 6
 
-## 6. Reproducing the C-CASE Results
+## 6. C-CASE Implementation
+
+The final C-CASE implementation uses global base learners rather than
+training separate base models for individual clusters.
+
+The three global base learners are:
+
+1. Linear Regression
+2. Random Forest
+3. XGBoost
+
+K-Means with K=3 is used to obtain workload-context information. The cluster
+labels are converted into three one-hot context variables.
+
+The meta-learning input therefore contains six features:
+
+- prediction from Linear Regression
+- prediction from Random Forest
+- prediction from XGBoost
+- cluster 0 context indicator
+- cluster 1 context indicator
+- cluster 2 context indicator
+
+An XGBoost meta-regressor combines these base-model predictions and
+cluster-context variables to generate the final C-CASE forecast.
+
+No cluster-specific Linear Regression, Random Forest, or XGBoost models are
+trained in the final C-CASE Table 4 experiment.
+
+## 7. Reproducing the C-CASE Results
 
 ### 1. Clone the repository
 
