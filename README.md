@@ -1,3 +1,25 @@
+## Reproducing the Experiments
+
+### 1. Download data
+
+python src/download_data.py
+
+### 2. Preprocess data
+
+python src/preprocess_data.py
+
+### 3. Train proposed C-CASE
+
+python src/train_ccase.py
+
+### 4. Run ablation experiments
+
+python src/ablation/ablation_1_global_xgb.py
+
+python src/ablation/ablation_2_stacking_no_clustering.py
+
+python src/ablation/ablation_3_xgb_cluster_context.py
+
 # C-CASE-GCT2019-Reproducibility
 
 Reproducibility repository for the **Cluster-Based Context-Aware Stacked Ensemble (C-CASE)** framework for multi-resource cloud workload forecasting using Google Cluster Data 2019.
