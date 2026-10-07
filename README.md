@@ -58,7 +58,8 @@ Target variables:
 Future CPU utilization and future memory utilization.
 
 Scaling:
-StandardScaler fitted only on the development/training data.
+StandardScaler fitted exclusively on the development/training data and
+subsequently applied to the untouched test data.
 
 Clustering:
 K-Means with K=3 for the final C-CASE experiment.
