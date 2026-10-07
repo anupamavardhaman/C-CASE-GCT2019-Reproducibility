@@ -22,5 +22,5 @@ The following command was used to download the required file:
 ```bash
 wget -c \
 https://storage.googleapis.com/clusterdata_2019_a/instance_usage-000000000000.json.gz \
--O "/content/drive/MyDrive/C_CASE/Google_InstanceUsage/instance_usage-000000000000.json.gz"
+-O "data/raw/instance_usage-000000000000.json.gz"
 ```
