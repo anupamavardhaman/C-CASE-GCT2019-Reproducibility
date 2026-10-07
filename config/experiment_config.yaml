@@ -1,6 +1,11 @@
 # C-CASE-GCT2019-Reproducibility
 # Experimental configuration
 
+experiment:
+  name: "C-CASE-GCT2019"
+  description: "Clustered Context-Aware Stacked Ensemble for workload forecasting"
+  version: "1.0"
+
 dataset:
   name: "Google Cluster Data 2019"
   source: "Google Cluster Data 2019"
