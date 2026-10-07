@@ -26,7 +26,7 @@ See:
 
 ```text
 data/README.md
-</> Plain text
+```
 
 ## Experimental Protocol
 
