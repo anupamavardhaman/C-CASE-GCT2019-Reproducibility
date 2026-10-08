@@ -2,15 +2,15 @@
 
 ### 1. Download data
 
-python src/download_data.py
+python src/01_download_data.py
 
 ### 2. Preprocess data
 
-python src/preprocess_data.py
+python src/02_preprocess_data.py
 
 ### 3. Train proposed C-CASE
 
-python src/train_ccase.py
+python src/03_train_ccase.py
 
 ### 4. Run ablation experiments
 
@@ -22,11 +22,11 @@ python src/ablation/ablation_3_xgb_cluster_context.py
 
 ### 5. Run the statistical test
 
-python src/Statistical test.py
+python src/04_Statistical test.py
 
 ### 6. Run the robustness test
 
-python src/rubustness.py
+python src/05_robustness.py
 
 # C-CASE-GCT2019-Reproducibility
 
