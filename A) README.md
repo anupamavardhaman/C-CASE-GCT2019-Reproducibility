@@ -12,7 +12,15 @@ python src/02_preprocess_data.py
 
 python src/03_train_ccase.py
 
-### 4. Run ablation experiments
+### 4. Run the statistical test
+
+python src/04_Statistical test.py
+
+### 5. Run the robustness test
+
+python src/05_robustness.py
+
+### 6. Run ablation experiments
 
 python src/ablation/ablation_1_global_xgb.py
 
@@ -20,13 +28,6 @@ python src/ablation/ablation_2_stacking_no_clustering.py
 
 python src/ablation/ablation_3_xgb_cluster_context.py
 
-### 5. Run the statistical test
-
-python src/04_Statistical test.py
-
-### 6. Run the robustness test
-
-python src/05_robustness.py
 
 # C-CASE-GCT2019-Reproducibility
 
